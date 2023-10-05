@@ -6,7 +6,7 @@ module.exports = (sequelize, Sequelize) => {
         allowNull: false,
         unique: true
       },
-      ordernNr: {
+      orderNr: {
         type: Sequelize.INTEGER,
       },
       mandatory: {

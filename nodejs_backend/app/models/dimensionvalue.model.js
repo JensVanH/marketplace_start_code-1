@@ -3,9 +3,14 @@ module.exports = (sequelize, Sequelize) => {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
+        unique: true
       },
       orderNr: {
         type: Sequelize.INTEGER,
+      },
+      dimension: {
+        type: Sequelize.TEXT,
       },
       description: {
         type: Sequelize.TEXT,

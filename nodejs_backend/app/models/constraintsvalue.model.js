@@ -4,6 +4,7 @@ module.exports = (sequelize, Sequelize) => {
       value: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
         references: {
           model: 'DimensionValue', // Table name of the referenced model
           key: 'name', // Column name of the referenced field
@@ -13,6 +14,7 @@ module.exports = (sequelize, Sequelize) => {
       constraintsValue: {
         type: Sequelize.STRING,
         allowNull: false,
+        primaryKey: true,
         references: {
           model: 'DimensionValue', // Table name of the referenced model
           key: 'name', // Column name of the referenced field

@@ -12,11 +12,11 @@ app.use(express.json({ limit: '5mb' }));
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+
 const db = require("./app/models");
 
-db.sequelize.sync();
-
 (async function() {
+  await db.sequelize.sync();  // This ensures your database schema is up-to-date
   await seedData();
 })();
 
@@ -41,6 +41,8 @@ require('./app/routes/booking.routes')(app);
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
+
 
 
 async function seedData() {
@@ -114,25 +116,27 @@ async function seedData() {
 ];
 
 
-  try {
-    await sequelize.sync({ force: true }); // Caution: This will drop the tables if they exist and recreate them
+for (const dim of dimensions) {
+  db.Dimension.findOrCreate({
+    where: { name: dim.name },
+    defaults: dim
+  });
+}
 
-    for (const dim of dimensions) {
-      await Dimension.create(dim);
-    }
+for (const dimVal of dimensionValues) {
+  db.DimensionValue.findOrCreate({
+    where: { name: dimVal.name }, 
+    defaults: dimVal
+  });
+}
 
-    for (const dimVal of dimensionValues) {
-      await DimensionValue.create(dimVal);
-    }
-
-    for (const con of constraints) {
-      await db.ConstraintValue.create(con);
-    }
-
-    console.log("Data seeded successfully");
-  } catch (error) {
-    console.error("Error seeding data: ", error);
-  }
-
-
+for (const con of constraints) {
+  db.ConstraintValue.findOrCreate({
+    where: { 
+      value: con.value,
+      constraintsValue: con.constraintsvalue}, 
+    defaults: con
+  });
+}
+console.log("Data seeded successfully");
 }
