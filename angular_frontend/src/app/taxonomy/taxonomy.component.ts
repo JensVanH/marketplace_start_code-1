@@ -63,7 +63,7 @@ export class TaxonomyComponent implements OnInit {
             this.taxonomy[x.dimension]['description'] = x.description
             // console.log(x)
           }
-          console.log(x)
+          // console.log(x)
           if (x.selected) {
             this.propertyValuesFormArray.push(new UntypedFormControl(x.dimensionValue));
           }
@@ -78,13 +78,13 @@ export class TaxonomyComponent implements OnInit {
           })
         }
 
-        console.log(this.taxonomy)
+        // console.log(this.taxonomy)
       })
   }
 
   fetchConstraints() {
-    this.db.executeQuery('SELECT value, dimension, constraintsValue FROM ConstraintValue CV left join DimensionValue DV ON CV.constraintsValue = DV.name;').then(r => {
-      this.constraints = r['data']
+    this.db.getConstraints().then(r => {
+      this.constraints = r['constraints']
     })
   }
 
@@ -101,8 +101,8 @@ export class TaxonomyComponent implements OnInit {
               this.taxonomy[constraint.dimension][index].selected = 0
               this.taxonomy[constraint.dimension][index]['dependency'] = 1
               // console.log(this.taxonomy[constraint.dimension][index].value)
-              this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
-              // this.db.deleteProperty(this.company, this.taxonomy[constraint.dimension][index].value)
+              // this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
+              this.db.deleteProperty(this.companyName, this.taxonomy[constraint.dimension][index].value)
             }
             else {
               this.taxonomy[constraint.dimension][index].selectable = 1
@@ -137,15 +137,15 @@ export class TaxonomyComponent implements OnInit {
   onCheckboxChange(e, value: any, dimension) {
     if (e.target.checked) {
       this.propertyValuesFormArray.push(new UntypedFormControl(e.target.value));
-      // this.db.createProperty(this.company, e.target.value)
-      this.db.executeQuery(`INSERT INTO PropertyCompany (company, property) values ('${this.companyName}','${e.target.value}');`)
+      this.db.createProperty(this.companyName, e.target.value)
+      // this.db.executeQuery(`INSERT INTO PropertyCompany (company, property) values ('${this.companyName}','${e.target.value}');`)
       value.selected = 1
     } else {
       const index = this.propertyValuesFormArray.controls.findIndex(x => x.value === e.target.value);
       this.propertyValuesFormArray.removeAt(index);
       value.selected = 0
-      this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${e.target.value}';`)
-      // this.db.deleteProperty(this.company, e.target.value)
+      // this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${e.target.value}';`)
+      this.db.deleteProperty(this.companyName, e.target.value)
     }
     this.checkDependencyConstraint(value)
     this.checkExclusiveConstraint(dimension, value) 
@@ -178,10 +178,10 @@ export class TaxonomyComponent implements OnInit {
 
   async fetchCompany() {
     this.companyName = this.companyService.companyName
-    console.log(this.companyService.companyName)
-    this.db.createCompany({company: this.companyName}).then(console.log)
-    this.db.executeQuery('update Company set selected = false where selected = true').then(console.log)
-    this.db.executeQuery(`update Company set selected = true where name = '${this.companyService.companyName}'`).then(console.log)
+    this.db.createCompany({company: this.companyName})
+    // this.db.setCompany(this.companyName)
+    // this.db.executeQuery('update Company set selected = false where selected = true')
+    // this.db.executeQuery(`update Company set selected = true where name = '${this.companyService.companyName}'`)
     this.fetchTaxonomy();
   }
 

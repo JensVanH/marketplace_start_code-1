@@ -424,6 +424,10 @@ export class DbConnectionService {
     return this.http.get(`${this.url}/api/taxonomy`, {params}).toPromise();
   }
 
+  getConstraints() {
+    return this.http.get(`${this.url}/api/constraints`).toPromise();
+  }
+
   getProperties() {
     const params = { company: this.companyService.companyName };
     return this.http.get(`${this.url}/api/properties`, {params}).toPromise();
@@ -437,12 +441,11 @@ export class DbConnectionService {
     return this.http.get(`${this.url}/api/companies`).toPromise();
   }
 
-  updateSelectedCompany(company) {
-    return this.http.put(`${this.url}/api/company/updateSelected`, { name: company }).toPromise();
+  setCompany(company) {
+    return this.http.post(`${this.url}/api/setCompany/${company}`, {}).toPromise();
   }
 
   createProperty(company: string, property: string){
-    // return this.http.post(`${this.url}/api/property/company=${company}`, property).toPromise();
     return this.http.post(`${this.url}/api/property/create`, { company: company, property: property }).toPromise();
   }
 
@@ -475,13 +478,13 @@ export class DbConnectionService {
   //   return this.http.post(`${this.url}/api/properties/delete` , {company: company}).toPromise()
   // }
 
-  async executeQuery(query: string){
-    return this.http.post(this.url, {'query': query}).toPromise().then(r => {
-      if (r["error"]) // error handling
-        return alert(`Error when connecting to database\n${r["error"]}`)
-      return r // forward response
-    });
-  }
+  // async executeQuery(query: string){
+  //   return this.http.post(this.url, {'query': query}).toPromise().then(r => {
+  //     if (r["error"]) // error handling
+  //       return alert(`Error when connecting to database\n${r["error"]}`)
+  //     return r // forward response
+  //   });
+  // }
   
 
 

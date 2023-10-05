@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { DbConnectionService } from './db-connection.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PropertiesService {
-
   public properties: Properties;
 
   constructor (private db: DbConnectionService) {
@@ -17,6 +18,7 @@ export class PropertiesService {
       this.properties = r;
     });
   }
+
 }
 
 export interface Properties {
@@ -33,3 +35,5 @@ export interface Properties {
   "Review System": string[],
   "UserType": string[],
 }
+
+

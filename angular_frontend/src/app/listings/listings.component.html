@@ -18,7 +18,7 @@
             </button>
           </div>
 
-          <div *ngIf="ps.properties['Listing Type'].includes('Offline Service')">
+          <div *ngIf="ps.properties['Listing Type']?.includes('Offline Service')">
             <div class="map" id="map" style="height:300px"></div>
           </div>
 
