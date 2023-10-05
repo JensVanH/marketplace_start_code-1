@@ -39,14 +39,18 @@ exports.getAllCompanies = (req, res) => {
     });
 };
 
-exports.updateSelectedCompany = async (req, res) => {
+exports.setCompany = async (req, res) => {
   try {
-      const companyName = req.body.name;
+    console.log(req.params.company)
+    // Set all values of a certain field to 0
+    await Company.update({ selected: 0 }, { where: {} });
 
-      const updatedCompany = await Company.update({ selected: true }, { where: { name: companyName } });
-      res.status(200).json({ message: 'Company updated successfully', data: updatedCompany });
+    // Set the value of company given in the parameter to 1
+    await Company.update({ selected: 1 }, { where: { company: req.params.company } });
+
+    return { message: 'Update successful' };
   } catch (error) {
-      res.status(500).json({ message: 'Error updating company', error });
+      throw error;
   }
 };
 

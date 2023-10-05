@@ -33,10 +33,13 @@ db.Category = require("./category.model.js")(sequelize, Sequelize);
 db.Notification = require("./notification.model.js")(sequelize, Sequelize);
 db.Review = require("./review.model.js")(sequelize, Sequelize);
 db.Company = require("./company.model.js")(sequelize, Sequelize);
-db.PropertyCompany = require("./PropertyCompany.model.js")(sequelize, Sequelize);
+db.PropertyCompany = require("./propertycompany.model.js")(sequelize, Sequelize);
 db.Registration = require("./registration.model.js")(sequelize, Sequelize);
 db.Message = require("./message.model.js")(sequelize, Sequelize);
 db.Booking = require("./booking.model.js")(sequelize, Sequelize);
+db.Dimension = require("./dimension.model.js")(sequelize, Sequelize);
+db.DimensionValue = require("./dimensionvalue.model.js")(sequelize, Sequelize);
+db.ConstraintValue = require("./constraintsvalue.model.js")(sequelize, Sequelize);
 
 // add foreign keys
 db.Listing.belongsTo(db.User, {foreignKey: 'userID'})
@@ -52,5 +55,6 @@ db.Registration.belongsTo(db.User, {foreignKey: 'userID'})
 db.Message.belongsTo(db.User, {foreignKey: 'senderID'})
 db.Message.belongsTo(db.User, {foreignKey: 'receiverID'})
 db.Booking.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
+db.DimensionValue.belongsTo(db.Dimension), {foreignKey: 'name'}
 
 module.exports = db;

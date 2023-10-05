@@ -7,7 +7,7 @@ const app = express();
 app.use(cors());
 
 // parse requests of content-type - application/json
-app.use(express.json({limit: '5mb'}));
+app.use(express.json({ limit: '5mb' }));
 
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
@@ -15,6 +15,10 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 
 db.sequelize.sync();
+
+(async function() {
+  await seedData();
+})();
 
 // routes
 require('./app/routes/auth.routes')(app);
@@ -25,43 +29,110 @@ require('./app/routes/category.routes')(app);
 require('./app/routes/notification.routes')(app);
 require('./app/routes/review.routes')(app);
 require('./app/routes/taxonomy.routes')(app);
-require('./app/routes/company.routes') (app);
-require('./app/routes/message.routes') (app);
-require('./app/routes/booking.routes') (app);
+require('./app/routes/company.routes')(app);
+require('./app/routes/message.routes')(app);
+require('./app/routes/booking.routes')(app);
 
-var mysql = require('mysql');
-var connection = mysql.createConnection({
-  host: 'ugmarket.ugent.be',
-  port: 13306,
-  user: 'tdrave3',
-  password: '9030gent',
-  database: 'Marketplace',
-  timezone: 'CET'
-});
-connection.connect();
-let getTime = () => new Date().toTimeString().split(' ')[0];
 
-// app listens on the home route for incoming POST requests
-app.post('/', (req, res) => {
-    // no query found in body
-    if (!req.body['query'])
-      res.send({ error: 'ERROR: couldn\'t find any query to be executed' });
-    else {
-      // send query to db
-      connection.query(req.body['query'], function (error, results, fields) {
-        // catch errors
-        if (error) {
-          res.send({ error: error['sqlMessage'] })
-          console.log(getTime(), 'Error while executing query \'' + req.body['query'] + '\': ' + error['sqlMessage'])
-        } else {
-          res.send({ data: results });
-          console.log(getTime(), 'Executed query: \'' + req.body['query'] + '\'');
-        }
-      });
-    }
-  })
+
+
 
 // listen for requests
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}.`);
+  console.log(`Server is running on port ${PORT}.`);
 });
+
+
+async function seedData() {
+  const dimensions = [
+    { name: 'User Type', orderNr: 1, mandatory: true, description: 'The users on the platform can be either individual persons or organizations, or sometimes both.' },
+    { name: 'Time Unit', orderNr: 5, mandatory: false, description: null },
+    { name: 'Review System', orderNr: 10, mandatory: false, description: 'By Customers allows Customers the option to leave reviews about the listings they interacted with. These reviews reflect their experiences, satisfaction levels, and opinions about the product or service received...' },
+    { name: 'Revenue Stream', orderNr: 12, mandatory: false, description: 'A revenue stream is the income generated for a company or organization...' },
+    { name: 'Revenue Source', orderNr: 13, mandatory: false, description: 'Customer Revenue: This refers to the income generated directly...' },
+    { name: 'Quantity', orderNr: 6, mandatory: true, description: 'When we talk about quantity in relation to a listing or product...' },
+    { name: 'Price Discovery', orderNr: 7, mandatory: false, description: 'On a marketplace, the price of a listing can be determined in various ways...' },
+    { name: 'Price Calculation', orderNr: 8, mandatory: false, description: 'The price can be calculated based on the quantity selected by the customer...' },
+    { name: 'Payment System', orderNr: 11, mandatory: false, description: null },
+    { name: 'Listing Type', orderNr: 3, mandatory: true, description: 'A good can be either physical (like a book or a smartphone) or digital (like software or an e-book)...' },
+    { name: 'Listing Kind', orderNr: 2, mandatory: true, description: 'Physical Goods: These are tangible products that can be physically handled and shipped to customers...' },
+    { name: 'Frequency', orderNr: 4, mandatory: false, description: 'The term "frequency" indicates how often a service occurs...' },
+    { name: 'Conversation System', orderNr: 9, mandatory: false, description: 'A listings conversation allows potential customers to send messages...' }
+  ];
+
+  const dimensionValues = [
+    { name: 'Auction', orderNr: 3, dimension: 'Price Calculation', exclusive: true },
+    { name: 'By Customer', orderNr: 1, dimension: 'Review System' },
+    { name: 'By Customer of Provider', orderNr: 3, dimension: 'Review System' },
+    { name: 'By Feature', orderNr: 2, dimension: 'Price Calculation' },
+    { name: 'By Provider', orderNr: 2, dimension: 'Review System' },
+    { name: 'By Quantity', orderNr: 1, dimension: 'Price Calculation' },
+    { name: 'Commission', orderNr: 2, dimension: 'Revenue Stream' },
+    { name: 'Customer', orderNr: 1, dimension: 'Revenue Source' },
+    { name: 'Day', orderNr: 2, dimension: 'Time Unit' },
+    { name: 'Digital Good', orderNr: 2, dimension: 'Listing Type' },
+    { name: 'Digital Service', orderNr: 4, dimension: 'Listing Type' },
+    { name: 'Fixed Fee', orderNr: 3, dimension: 'Revenue Stream' },
+    { name: 'Good Transfer', orderNr: 1, dimension: 'Listing Kind' },
+    { name: 'Hour', orderNr: 1, dimension: 'Time Unit' },
+    { name: 'Listing Conversation', orderNr: 1, dimension: 'Conversation System' },
+    { name: 'Listing Fee', orderNr: 4, dimension: 'Revenue Stream' },
+    { name: 'Many', orderNr: 2, dimension: 'Quantity', exclusive: true },
+    { name: 'Offline Service', orderNr: 3, dimension: 'Listing Type' },
+    { name: 'One', orderNr: 1, dimension: 'Quantity', exclusive: true },
+    { name: 'One-Time', orderNr: 3, dimension: 'Frequency', exclusive: true },
+    { name: 'Organisation', orderNr: 2, dimension: 'User Type' },
+    { name: 'Person', orderNr: 1, dimension: 'User Type' },
+    { name: 'Physical Good', orderNr: 1, dimension: 'Listing Type' },
+    { name: 'Provider', orderNr: 2, dimension: 'Revenue Source' },
+    { name: 'Quote', orderNr: 4, dimension: 'Price Calculation', exclusive: true },
+    { name: 'Recurring', orderNr: 4, dimension: 'Frequency', exclusive: true },
+    { name: 'Service', orderNr: 2, dimension: 'Listing Kind' },
+    { name: 'Set by Customer', orderNr: 2, dimension: 'Price Discovery', exclusive: true },
+    { name: 'Set by Market', orderNr: 3, dimension: 'Price Discovery', exclusive: true },
+    { name: 'Set by Provider', orderNr: 1, dimension: 'Price Discovery', exclusive: true },
+    { name: 'Subscription', orderNr: 1, dimension: 'Revenue Stream' },
+    { name: 'Transaction Conversation', orderNr: 2, dimension: 'Conversation System' }
+  ];
+
+  const constraints = [
+    { value: 'Set by Customer', constraintsvalue: 'Auction' },
+    { value: 'Set by Provider', constraintsvalue: 'Auction' },
+    { value: 'One', constraintsvalue: 'By Feature' },
+    { value: 'Set by Market', constraintsvalue: 'By Feature' },
+    { value: 'One', constraintsvalue: 'By Quantity' },
+    { value: 'Set by Market', constraintsvalue: 'By Quantity' },
+    { value: 'Listing Fee', constraintsvalue: 'Customer' },
+    { value: 'Service', constraintsvalue: 'Digital Good' },
+    { value: 'Good Transfer', constraintsvalue: 'Digital Service' },
+    { value: 'Good Transfer', constraintsvalue: 'Offline Service' },
+    { value: 'Good Transfer', constraintsvalue: 'One-Time' },
+    { value: 'Service', constraintsvalue: 'Physical Good' },
+    { value: 'Set by Customer', constraintsvalue: 'Quote' },
+    { value: 'Set by Provider', constraintsvalue: 'Quote' },
+    { value: 'Good Transfer', constraintsvalue: 'Recurring' }
+];
+
+
+  try {
+    await sequelize.sync({ force: true }); // Caution: This will drop the tables if they exist and recreate them
+
+    for (const dim of dimensions) {
+      await Dimension.create(dim);
+    }
+
+    for (const dimVal of dimensionValues) {
+      await DimensionValue.create(dimVal);
+    }
+
+    for (const con of constraints) {
+      await db.ConstraintValue.create(con);
+    }
+
+    console.log("Data seeded successfully");
+  } catch (error) {
+    console.error("Error seeding data: ", error);
+  }
+
+
+}

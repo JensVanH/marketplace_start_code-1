@@ -2,10 +2,9 @@ const db = require("../models");
 const sequelize = require('sequelize');
 const PropertyCompany = db.PropertyCompany
 
-// returns all listings
 exports.getTaxonomy = (req, res) => {
     const companyName = req.query.company
-    db.sequelize.query(`Select dimension, dimensionValue, IF(company IS NOT NULL, 1, 0) AS selected, mandatory, exclusive, orderNrDimension, TV.description from TaxonomyView TV left join (select * from PropertyCompanyView where company = '${companyName}') PCV on TV.dimensionValue = PCV.property  order by TV.orderNrDimension, TV.orderNrValue ;`)
+    db.sequelize.query(`SELECT dimension, dimensionValue, IF(company IS NOT NULL, 1, 0) AS selected, mandatory, exclusive, orderNrDimension, TV.description FROM (SELECT D.name AS dimension, DV.name AS dimensionValue, D.description, D.mandatory, DV.exclusive, D.orderNr as orderNrDimension, DV.orderNr as orderNrValue FROM Dimension D INNER JOIN DimensionValue DV ON D.name = DV.dimension) TV LEFT JOIN (SELECT property, C.name AS company FROM PropertyCompany PC LEFT JOIN Company C ON PC.company = C.name WHERE C.name = '${companyName}') PCV ON TV.dimensionValue = PCV.property ORDER BY TV.orderNrDimension, TV.orderNrValue;`)
         .then(taxonomy => {
             return res.status(200).send({ taxonomy: taxonomy[0] })
         })
@@ -38,13 +37,6 @@ exports.deleteProperty = (req, res) => {
     PropertyCompany.destroy({
         where: { property: req.params.property, company: req.params.company }
     })
-        .then(numDeleted => {
-            if (numDeleted) {
-                res.status(200).send("Record deleted");
-            } else {
-                res.status(404).send("Record not found");
-            }
-        })
         .catch(error => {
             res.status(500).send(error);
         });
@@ -77,3 +69,11 @@ exports.deleteProperties = (req, res) => {
             });
         });
 };
+
+exports.getConstraints = (req, res) => {
+    db.sequelize.query(`SELECT value, dimension, constraintsValue FROM ConstraintValue CV left join DimensionValue DV ON CV.constraintsValue = DV.name;`)
+        .then(constraints => {
+            return res.status(200).send({ constraints: constraints[0] })
+        })
+};
+

@@ -15,6 +15,10 @@ module.exports = function(app) {
       controller.getTaxonomy
     );
 
+    app.get("/api/constraints",
+      controller.getConstraints
+    )
+
     // app.get(
     //   "/api/constraintsValue",
     //   controller.getConstraintsValue
