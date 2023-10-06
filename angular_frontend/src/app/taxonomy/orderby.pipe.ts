@@ -6,7 +6,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class OrderByPipe implements PipeTransform {
   transform(array: any[], field: string): any[] {
     if (!Array.isArray(array)) {
-        console.log("err")
         
       return;
     }

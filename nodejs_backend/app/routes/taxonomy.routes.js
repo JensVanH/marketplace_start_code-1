@@ -30,7 +30,7 @@ module.exports = function(app) {
     );
 
     app.post(
-      "/api/property/create",
+      "/api/property/create/:property/:company",
       controller.createProperty
     );
 

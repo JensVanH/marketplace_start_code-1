@@ -40,9 +40,6 @@ export class SignupComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.db.getProperties().then(r => {
-      this.properties = r
-    })
   }
 
   // onSubmit function

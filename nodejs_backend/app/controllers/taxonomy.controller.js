@@ -44,8 +44,8 @@ exports.deleteProperty = (req, res) => {
 
 exports.createProperty = (req, res) => {
     PropertyCompany.create({
-        property: req.body.property,
-        company: req.body.company
+        property: req.params.property,
+        company: req.params.company
     }).then(l => {
         res.send({ message: "property was created successfully!" });
     })

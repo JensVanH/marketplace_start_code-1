@@ -49,13 +49,14 @@ async function seedData() {
   const dimensions = [
     { name: 'User Type', orderNr: 1, mandatory: true, description: 'The users on the platform can be either individual persons or organizations, or sometimes both.' },
     { name: 'Time Unit', orderNr: 5, mandatory: false, description: null },
-    { name: 'Review System', orderNr: 10, mandatory: false, description: 'By Customers allows Customers the option to leave reviews about the listings they interacted with. These reviews reflect their experiences, satisfaction levels, and opinions about the product or service received...' },
-    { name: 'Revenue Stream', orderNr: 12, mandatory: false, description: 'A revenue stream is the income generated for a company or organization...' },
-    { name: 'Revenue Source', orderNr: 13, mandatory: false, description: 'Customer Revenue: This refers to the income generated directly...' },
+    { name: 'Review By', orderNr: 10, mandatory: false, description: 'By Customers allows Customers the option to leave reviews about the listings they interacted with. These reviews reflect their experiences, satisfaction levels, and opinions about the product or service received...' },
+    { name: 'Review Of', orderNr: 11, mandatory: false, description: 'By Customers allows Customers the option to leave reviews about the listings they interacted with. These reviews reflect their experiences, satisfaction levels, and opinions about the product or service received...' },
+    { name: 'Revenue Stream', orderNr: 13, mandatory: false, description: 'A revenue stream is the income generated for a company or organization...' },
+    { name: 'Revenue Source', orderNr: 14, mandatory: false, description: 'Customer Revenue: This refers to the income generated directly...' },
     { name: 'Quantity', orderNr: 6, mandatory: true, description: 'When we talk about quantity in relation to a listing or product...' },
     { name: 'Price Discovery', orderNr: 7, mandatory: false, description: 'On a marketplace, the price of a listing can be determined in various ways...' },
     { name: 'Price Calculation', orderNr: 8, mandatory: false, description: 'The price can be calculated based on the quantity selected by the customer...' },
-    { name: 'Payment System', orderNr: 11, mandatory: false, description: null },
+    { name: 'Payment System', orderNr: 12, mandatory: false, description: null },
     { name: 'Listing Type', orderNr: 3, mandatory: true, description: 'A good can be either physical (like a book or a smartphone) or digital (like software or an e-book)...' },
     { name: 'Listing Kind', orderNr: 2, mandatory: true, description: 'Physical Goods: These are tangible products that can be physically handled and shipped to customers...' },
     { name: 'Frequency', orderNr: 4, mandatory: false, description: 'The term "frequency" indicates how often a service occurs...' },
@@ -64,10 +65,12 @@ async function seedData() {
 
   const dimensionValues = [
     { name: 'Auction', orderNr: 3, dimension: 'Price Calculation', exclusive: true },
-    { name: 'By Customer', orderNr: 1, dimension: 'Review System' },
-    { name: 'By Customer of Provider', orderNr: 3, dimension: 'Review System' },
+    { name: 'By Customer', orderNr: 1, dimension: 'Review By' },
+    { name: 'Of Listing', orderNr: 1, dimension: 'Review Of' },
+    { name: 'Of Provider', orderNr: 2, dimension: 'Review Of' },
+    { name: 'Of Customer', orderNr: 3, dimension: 'Review Of' },
     { name: 'By Feature', orderNr: 2, dimension: 'Price Calculation' },
-    { name: 'By Provider', orderNr: 2, dimension: 'Review System' },
+    { name: 'By Provider', orderNr: 2, dimension: 'Review By' },
     { name: 'By Quantity', orderNr: 1, dimension: 'Price Calculation' },
     { name: 'Commission', orderNr: 2, dimension: 'Revenue Stream' },
     { name: 'Customer', orderNr: 1, dimension: 'Revenue Source' },
@@ -112,7 +115,10 @@ async function seedData() {
     { value: 'Service', constraintsvalue: 'Physical Good' },
     { value: 'Set by Customer', constraintsvalue: 'Quote' },
     { value: 'Set by Provider', constraintsvalue: 'Quote' },
-    { value: 'Good Transfer', constraintsvalue: 'Recurring' }
+    { value: 'Good Transfer', constraintsvalue: 'Recurring' },
+    { value: 'Good Transfer', constraintsvalue: 'Hour' },
+    { value: 'Good Transfer', constraintsvalue: 'Day' },
+    { value: 'One-Time', constraintsvalue: 'Of Listing' },
 ];
 
 

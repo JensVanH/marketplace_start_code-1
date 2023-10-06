@@ -20,7 +20,6 @@ export class TransactiondetailComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.db.getTransaction(params.id).then(t => {
         this.transaction = t;
-        console.log(this.transaction)
       })
     })
   }

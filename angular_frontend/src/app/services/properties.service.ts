@@ -32,7 +32,8 @@ export interface Properties {
   "Quantity": string[],
   "Revenue Source": string[],
   "revenue Stream": string[],
-  "Review System": string[],
+  "Review By": string[],
+  "Review Of": string[],
   "UserType": string[],
 }
 

@@ -45,7 +45,7 @@
               </div>
 
               <!-- Available Assets -->
-              <div *ngIf="!properties['Quantity']?.includes('One')" class="form-group">
+              <div *ngIf="!ps.properties['Quantity']?.includes('One') && !ps.properties['Frequency']?.includes('Recurring')"  class="form-group">
                 <label for="inputAvailableAssets">
                   Quantity Available
                 </label>
@@ -59,7 +59,7 @@
               </div>
 
               <!-- Date -->
-              <div *ngIf=" properties['Listing Kind']?.includes('Service') && properties['Frequency']?.includes('One-Time')" class="form-group">
+              <div *ngIf=" ps.properties['Listing Kind']?.includes('Service') && ps.properties['Frequency']?.includes('One-Time')" class="form-group">
                 <label for="inputDate">
                   Date
                 </label>
@@ -94,7 +94,7 @@
               </div>
 
               <!-- Location -->
-              <div  *ngIf="properties['Listing Type']?.includes('Offline Service')" class="form-group">
+              <div  *ngIf="ps.properties['Listing Type']?.includes('Offline Service')" class="form-group">
                 <label for="inputLocation">
                   Location
                 </label>
@@ -107,7 +107,7 @@
               </div>
 
               <!-- Image -->
-              <div *ngIf="!properties['Listing Type']?.includes('Digital Good')" class="form-group">
+              <div *ngIf="!ps.properties['Listing Type']?.includes('Digital Good')" class="form-group">
 
                 <!-- Image Input-->
                 <label for="inputImage">
@@ -144,7 +144,7 @@
 
               </div>
 
-              <div *ngIf="properties['Listing Type']?.includes('Digital Good')" class="form-group">
+              <div *ngIf="ps.properties['Listing Type']?.includes('Digital Good')" class="form-group">
 
                 <!-- file Input-->
                 <label for="inputFile">
@@ -162,7 +162,7 @@
                 </div>
               </div>
 
-              <div *ngIf="properties['Listing Type']?.includes('Digital Service')" class="form-group">
+              <div *ngIf="ps.properties['Listing Type']?.includes('Digital Service')" class="form-group">
                 <label for="inputLink">
                   Link
                 </label>

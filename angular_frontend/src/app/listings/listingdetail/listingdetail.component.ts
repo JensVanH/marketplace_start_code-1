@@ -90,7 +90,6 @@ export class ListingDetailComponent implements OnInit {
       if (this.loadedBookings[0] !== cellDate.getMonth() + 1 || this.loadedBookings[1] !== cellDate.getFullYear()){
         this.db.getListingBookings(this.listing['listingID'], cellDate.getMonth() + 1, cellDate.getFullYear()).then(r => {
             this.bookings = r['bookings'];
-            console.log(this.bookings)
             // update calendar
             this.calendar.updateTodaysDate();
         });
@@ -132,7 +131,7 @@ export class ListingDetailComponent implements OnInit {
 
   // calculate selected amount of assets of service
   private getTotalServiceAssets(){
-    if (this.ps.properties['Time Unit'].includes('Hour'))
+    if (this.ps.properties['Time Unit']?.includes('Hour'))
       return parseInt(this.form.get('amountOfHours').value)
     else{
       if (this.selectedDateRange && this.selectedDateRange.start && this.selectedDateRange.end)
@@ -148,7 +147,6 @@ export class ListingDetailComponent implements OnInit {
     private router: Router,
     public image: ImageService,
     public ps: PropertiesService) {
-      console.log(ps.properties)
       
       // initialize form field
       this.form = new UntypedFormGroup({
@@ -165,7 +163,6 @@ export class ListingDetailComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    console.log(this.ps.properties)
     // get url query params
     this.route.params.subscribe(params => {
       this.error = "";
@@ -188,7 +185,7 @@ export class ListingDetailComponent implements OnInit {
             // if listing if made by logged in user show transactions
             if (this.listing['userID'] === this.user.getId())
               this.loadTransactions();
-            if (this.ps.properties['Review System'].includes('By Customer of Provider')){
+            if (this.ps.properties['Review Of']?.includes('Of Listing')){
               this.db.getSellerRating(this.listing['userID']).then(r => {
                 this.sellerScore = r['sellerScore'];
                 this.sellerReviewAmount = r['reviewAmount'];
@@ -197,7 +194,6 @@ export class ListingDetailComponent implements OnInit {
 
             if (this.listing['location']){
               this.db.geoLocate(this.listing['location']).then(r => {
-                console.log(r)
                 this.coords = r['features'][0]['center']
               })
             }
@@ -242,12 +238,11 @@ export class ListingDetailComponent implements OnInit {
           });
           
           // load bookings when applicable
-          if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+          if (this.ps.properties['Listing Kind']?.includes('Service') && this.ps.properties['Frequency']?.includes('Recurring')){
             this.db.getTransactionBookings(this.user.getLoginToken(), t['transactionID']).then(r => {
               t['bookings'] = r['bookings']
             })
           }
-          //console.log(this.transactions)
         })
         this.onFinishLoading();
       }).catch(err => {
@@ -270,15 +265,14 @@ export class ListingDetailComponent implements OnInit {
     // get form value
     let values = {...this.form.getRawValue()}
     values['numberOfAssets'] = this.getTotalServiceAssets()
-    console.log(values)
     // add listingID to form values
     values['listingID'] = this.listing['listingID'];
     this.db.createTransaction(this.user.getLoginToken(), values).then(r => {
 
       // Create Booking after transaction has been created
-      if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+      if (this.ps.properties['Listing Kind']?.includes('Service') && this.ps.properties['Frequency']?.includes('Recurring')){
         let fields = {'transactionID': r['transactionID']};
-        if (this.ps.properties['Time Unit'].includes('Day')){
+        if (this.ps.properties['Time Unit']?.includes('Day')){
           fields['startDate'] = this.dateToYYYYMMDDformat(this.selectedDateRange.start);
           fields['endDate'] = this.dateToYYYYMMDDformat(this.selectedDateRange.end);
         } else {
@@ -297,7 +291,7 @@ export class ListingDetailComponent implements OnInit {
         this.db.createBooking(this.user.getLoginToken(), fields).then(res => {
           this.transactionSuccess();
         }).catch(e => {
-          this.db.cancelTransaction(r['transactionID'], this.user.getLoginToken()).then(console.log)
+          this.db.cancelTransaction(r['transactionID'], this.user.getLoginToken())
           this.error = `Booking failed: ${e.error.message}`
         })
       } else {
@@ -359,7 +353,6 @@ export class ListingDetailComponent implements OnInit {
   // save booking info
   saveBookingInfo(booking){
     this.db.addBookingInfo(this.user.getLoginToken(), {bookingID: booking['bookingID'], info: booking['info']}).then(r => {
-      console.log(r)
     })
   }
 }

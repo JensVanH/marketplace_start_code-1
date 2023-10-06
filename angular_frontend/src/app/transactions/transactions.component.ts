@@ -42,14 +42,13 @@ export class TransactionsComponent implements OnInit {
         this.transactions = t['transactions'].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 
         // load bookings when applicable
-        if (this.ps.properties['Listing Kind'].includes('Service') && this.ps.properties['Frequency'].includes('Recurring')){
+        if (this.ps.properties['Listing Kind']?.includes('Service') && this.ps.properties['Frequency']?.includes('Recurring')){
           this.transactions.forEach(transaction => {
               this.db.getTransactionBookings(this.user.getLoginToken(), transaction['transactionID']).then(r => {
                 transaction['bookings'] = r['bookings']
               })
           })
         }
-        console.log(this.transactions)
       })
   }
 
@@ -69,6 +68,11 @@ export class TransactionsComponent implements OnInit {
     this.db.postReview(this.user.getLoginToken(), this.selectedTransactionForReview, v).then(r => {
       this.router.navigateByUrl('/listings/details/' + r['listingID']);
     })
+  }
+
+  // open message page to owner of listing
+  contactOwner(transaction){
+    this.router.navigateByUrl(`/messages?id=${transaction.Listing['userID']}`)
   }
 
 }

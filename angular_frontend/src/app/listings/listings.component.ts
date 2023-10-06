@@ -114,7 +114,6 @@ export class ListingsComponent implements OnInit {
     
     // get categories
     this.db.getCategories().then(r => {
-      // console.log(r)
       this.categories = Object.entries(r).map(([k, v]) => [k, v.map((x => {
         return { name: x, selected: false }
         
@@ -128,7 +127,7 @@ export class ListingsComponent implements OnInit {
       this.hasCancelled = false;
       this.loading = false;
 
-      if (this.ps.properties['Listing Type'].includes('Offline Service'))
+      if (this.ps.properties['Listing Type']?.includes('Offline Service'))
         this.renderMap();
     })
   }

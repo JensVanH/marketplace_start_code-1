@@ -47,7 +47,6 @@ export class DbConnectionService {
    * @returns http response promise
    */
   signUp(fields: Object){
-    console.log(fields)
     return this.http.post(`${this.url}/api/auth/signup`, fields).toPromise();
   }
 
@@ -215,7 +214,6 @@ export class DbConnectionService {
    * @returns http response promise
    */
   createTransaction(userToken: string, fields: Object){
-    console.log(fields)
     return this.http.post(`${this.url}/api/transaction/create`, fields, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
 
@@ -273,13 +271,10 @@ export class DbConnectionService {
    */
   createCategory(fields: any){
     fields.company = this.companyService.companyName
-    // console.log(fields)
     return this.http.post(`${this.url}/api/category/create`, fields).toPromise();
   }
 
   createCompany (fields){
-    // fields.company = this.companyName
-      // console.log(fields)
       return this.http.post(`${this.url}/api/company/create`, fields).toPromise();
    }
 
@@ -446,12 +441,11 @@ export class DbConnectionService {
   }
 
   createProperty(company: string, property: string){
-    return this.http.post(`${this.url}/api/property/create`, { company: company, property: property }).toPromise();
+    return this.http.post(`${this.url}/api/property/create/${property}/${company}`, {}).toPromise();
   }
 
   deleteProperty(company: string, property: string) {
     return this.http.delete(`${this.url}/api/property/${property}/${company}`).subscribe(response => {
-      console.log("Record deleted", response);
     }, error => {
       console.error("Error deleting record", error);
     });
@@ -472,22 +466,7 @@ export class DbConnectionService {
   getNewMessagesAmount(userToken: string){
     return this.http.get(`${this.url}/api/newMessages`, {headers: this.getTokenHeader(userToken)}).toPromise();
   }
-
-  // deleteProperties(company: string) {
-  //   console.log(company)
-  //   return this.http.post(`${this.url}/api/properties/delete` , {company: company}).toPromise()
-  // }
-
-  // async executeQuery(query: string){
-  //   return this.http.post(this.url, {'query': query}).toPromise().then(r => {
-  //     if (r["error"]) // error handling
-  //       return alert(`Error when connecting to database\n${r["error"]}`)
-  //     return r // forward response
-  //   });
-  // }
   
-
-
   geoLocate(place){
     return this.http.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${place}.json?access_token=${environment.mapbox.accessToken}`).toPromise()
   }

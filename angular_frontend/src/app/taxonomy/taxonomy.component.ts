@@ -61,9 +61,7 @@ export class TaxonomyComponent implements OnInit {
             this.taxonomy[x.dimension]['mandatory'] = x.mandatory;
             this.taxonomy[x.dimension]['orderNr'] = x.orderNrDimension
             this.taxonomy[x.dimension]['description'] = x.description
-            // console.log(x)
           }
-          // console.log(x)
           if (x.selected) {
             this.propertyValuesFormArray.push(new UntypedFormControl(x.dimensionValue));
           }
@@ -78,7 +76,6 @@ export class TaxonomyComponent implements OnInit {
           })
         }
 
-        // console.log(this.taxonomy)
       })
   }
 
@@ -100,8 +97,6 @@ export class TaxonomyComponent implements OnInit {
               this.taxonomy[constraint.dimension][index].selectable = 0
               this.taxonomy[constraint.dimension][index].selected = 0
               this.taxonomy[constraint.dimension][index]['dependency'] = 1
-              // console.log(this.taxonomy[constraint.dimension][index].value)
-              // this.db.executeQuery(`DELETE FROM PropertyCompany WHERE company = '${this.companyName}' AND property = '${this.taxonomy[constraint.dimension][index].value}';`)
               this.db.deleteProperty(this.companyName, this.taxonomy[constraint.dimension][index].value)
             }
             else {

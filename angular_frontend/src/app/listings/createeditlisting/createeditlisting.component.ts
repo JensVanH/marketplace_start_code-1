@@ -6,6 +6,7 @@ import { ImageService } from 'src/app/services/image.service';
 import { UserService } from 'src/app/services/user.service';
 import { ListingModule } from '../listing.module';
 import { CompanyService } from 'src/app/services/company.service';
+import { PropertiesService } from 'src/app/services/properties.service';
 
 @Component({
   selector: 'app-form',
@@ -29,7 +30,8 @@ export class CreateEditListingComponent implements OnInit {
     private db: DbConnectionService,
     private router: Router,
     private image: ImageService,
-    private companyService: CompanyService) {
+    private companyService: CompanyService,
+    public ps: PropertiesService) {
     // redirect to login page when not logged in
     if (!this.user.isLoggedIn())
         this.router.navigateByUrl("/login")
@@ -46,12 +48,6 @@ export class CreateEditListingComponent implements OnInit {
    }
 
   ngOnInit(): void {
-
-    this.db.getProperties().then (r => {
-      this.properties = r
-      console.log(this.properties)
-      }
-    );
 
     // get url query params
     this.route.queryParamMap.subscribe(qMap => {
@@ -114,7 +110,6 @@ export class CreateEditListingComponent implements OnInit {
   createListing(){
     // get values
     let values = {...this.form.getRawValue(), };
-    // console.log(values)
     // add selected categories
     values['categories'] = this.categories.map(x => x[1]).reduce((acc, val) => acc.concat(val), []).filter(x => x.selected).map(x => x.name)
     // add image

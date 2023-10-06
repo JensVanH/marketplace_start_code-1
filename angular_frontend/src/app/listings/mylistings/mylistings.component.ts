@@ -5,6 +5,8 @@ import { DbConnectionService } from '../../services/db-connection.service';
 import { ImageService } from '../../services/image.service';
 import { UserService } from '../../services/user.service';
 import { Platform } from '@angular/cdk/platform';
+import { PropertiesService } from 'src/app/services/properties.service';
+
 
 @Component({
   selector: 'app-mylistings',
@@ -89,6 +91,7 @@ export class MylistingsComponent {
     public image: ImageService,
     public router: Router,
     private platform: Platform,
+    public ps: PropertiesService,
   ) {
     this.form = new UntypedFormGroup({
       comment: new UntypedFormControl('')
@@ -99,17 +102,10 @@ export class MylistingsComponent {
 
     this.isMobile = this.platform.ANDROID || this.platform.IOS;
 
-    this.db.getProperties().then(r => {
-      this.properties = r
-      console.log(this.properties)
-    }
-    );
-
 
 
     // get categories
     this.db.getCategories().then(r => {
-      // console.log(r)
       this.categories = Object.entries(r).map(([k, v]) => [k, v.map((x => {
         return { name: x, selected: false }
 
@@ -123,7 +119,6 @@ export class MylistingsComponent {
 
       this.db.getUserListings(uId).then(l => {
         this.listings = l['listings']
-        console.log(this.listings)
 
       })
 

@@ -55,7 +55,6 @@ export class CategoriesComponent implements OnInit {
 
   removeOption(categoryIndex: number, optionIndex: number){
     this.loading = true;
-    console.log(this.categories[categoryIndex][1][optionIndex]);
     this.db.deleteCategory(this.categories[categoryIndex][1][optionIndex]).then(_ => {
       // update categories
       this.fetchCategories();

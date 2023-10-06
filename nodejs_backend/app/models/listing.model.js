@@ -6,6 +6,9 @@ module.exports = (sequelize, Sequelize) => {
         autoIncrement: true,
         allowNull: false,
       },
+      userID: {
+        type: Sequelize.INTEGER
+      },
       name: {
         type: Sequelize.STRING
       },
@@ -51,7 +54,6 @@ module.exports = (sequelize, Sequelize) => {
       },
       company: {
         type: Sequelize.STRING,
-        allowNull: false,
       }
     }, {
       timestamps: true,

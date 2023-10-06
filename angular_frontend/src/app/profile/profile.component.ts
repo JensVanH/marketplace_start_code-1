@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
 import { UserService } from '../services/user.service';
+import { PropertiesService } from '../services/properties.service';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +24,8 @@ export class ProfileComponent implements OnInit {
   constructor(public user: UserService,
     private route: Router,
     private db: DbConnectionService,
-    private image: ImageService) {
+    private image: ImageService,
+    public ps: PropertiesService) {
       // redirect to login page when not logged in
       if (!user.isLoggedIn())
         this.route.navigateByUrl("/login")
@@ -42,9 +44,6 @@ export class ProfileComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.db.getProperties().then(r => {
-      this.properties = r
-    })
 
     // get user data
     this.db.getUserData(this.user.getId(), this.user.getLoginToken())

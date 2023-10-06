@@ -42,19 +42,94 @@ db.DimensionValue = require("./dimensionvalue.model.js")(sequelize, Sequelize);
 db.ConstraintValue = require("./constraintsvalue.model.js")(sequelize, Sequelize);
 
 // add foreign keys
-db.Listing.belongsTo(db.User, {foreignKey: 'userID'})
-db.Transaction.belongsTo(db.Listing, {foreignKey: 'listingID'})
-db.Transaction.belongsTo(db.User, {foreignKey: 'customerID'})
-db.Notification.belongsTo(db.User, {foreignKey: 'userID'})
-db.Notification.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
-db.Review.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
-db.PropertyCompany.belongsTo(db.Company, {foreignKey: 'company'})
-db.Listing.belongsTo(db.Company, {foreignKey: 'company'})
-db.Registration.belongsTo(db.Company, {foreignKey: 'company'})
-db.Registration.belongsTo(db.User, {foreignKey: 'userID'})
-db.Message.belongsTo(db.User, {foreignKey: 'senderID'})
-db.Message.belongsTo(db.User, {foreignKey: 'receiverID'})
-db.Booking.belongsTo(db.Transaction, {foreignKey: 'transactionID'})
-db.DimensionValue.belongsTo(db.Dimension), {foreignKey: 'name'}
+db.Listing.belongsTo(db.User, {
+  foreignKey: 'userID',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Transaction.belongsTo(db.Listing, {
+  foreignKey: 'listingID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.Transaction.belongsTo(db.User, {
+  foreignKey: 'customerID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.Notification.belongsTo(db.User, {
+  foreignKey: 'userID',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Notification.belongsTo(db.Transaction, {
+  foreignKey: 'transactionID',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Review.belongsTo(db.Transaction, {
+  foreignKey: 'transactionID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.PropertyCompany.belongsTo(db.Company, {
+  foreignKey: 'company',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.PropertyCompany.belongsTo(db.DimensionValue, {
+  foreignKey: 'property',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Listing.belongsTo(db.Company, {
+  foreignKey: 'company',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.Registration.belongsTo(db.Company, {
+  foreignKey: 'company',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Registration.belongsTo(db.User, {
+  foreignKey: 'userID',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
+
+db.Message.belongsTo(db.User, {
+  foreignKey: 'senderID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.Message.belongsTo(db.User, {
+  foreignKey: 'receiverID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.Booking.belongsTo(db.Transaction, {
+  foreignKey: 'transactionID',
+  onDelete: 'SET NULL',
+  onUpdate: 'CASCADE'
+});
+
+db.DimensionValue.belongsTo(db.Dimension, {
+  foreignKey: 'dimension',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE'
+});
 
 module.exports = db;
