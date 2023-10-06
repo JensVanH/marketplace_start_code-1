@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { DbConnectionService } from '../services/db-connection.service';
 import { ImageService } from '../services/image.service';
 import { User, UserService } from '../services/user.service';
+import { PropertiesService } from '../services/properties.service';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class SignupComponent implements OnInit {
 
   constructor(private db: DbConnectionService,
     private route: Router,
-    private image: ImageService) {
+    private image: ImageService,
+    public ps: PropertiesService) {
       // initialize form fields
       this.form = new UntypedFormGroup({
         firstName: new UntypedFormControl(),
