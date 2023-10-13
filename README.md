@@ -7,14 +7,14 @@
 
 ## Backend server
 1. Change the credentials `user`, `password`, and `DB` in `nodejs_backend/app/config/db.config.js` via vscode: https://code.visualstudio.com/
-1. cd `nodejs_backend/app.js` to enter the backend folder
-2. `npm install` to install the packages
-3. `node app.js` to start the backend server, it will listen for HTTP requests on port 3000 by default.
+2. Open a terminal in VS code and run cd `nodejs_backend` to enter the backend folder
+3. `npm install` to install the packages
+4. `node app.js` to start the backend server, it will listen for HTTP requests on port 3000 by default.
 
 ## Frontend
-1. open a new terminal
-2. First time: Run `cd angular_frontend;npm install` to install the packages
-3. Run `cd angular_frontend;ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. open a second terminal and run cd `cd angular_frontend` to enter the frondend folder
+2. `npm install` to install the packages
+3. `ng serve` to start the frondend server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Select Business Models
 
