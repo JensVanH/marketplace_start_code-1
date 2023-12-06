@@ -16,6 +16,7 @@
 1. open a second terminal and run cd `cd angular_frontend` to enter the frondend folder
 2. `npm install` to install the packages
 3. `ng serve` to start the frondend server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+4. Get an access code for mapbox: https://www.mapbox.com/ and fill it in the environment.ts file. 
 
 ## Select Business Models
 
