@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./app/models");
 
 (async function() {
-  await db.sequelize.sync();  // This ensures your database schema is up-to-date
+  await db.sequelize.sync({alter:true});  // This ensures your database schema is up-to-date
   await seedData();
 })();
 
