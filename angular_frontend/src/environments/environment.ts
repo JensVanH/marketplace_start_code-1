@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   
-  baseUrlApi: 'http://localhost:3001',
+  baseUrlApi: "https://ugmarket.ugent.be/api2/",
 
   mapbox: {
     accessToken: '' 
