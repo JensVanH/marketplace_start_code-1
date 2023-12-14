@@ -1,8 +1,9 @@
 # marketplace
 
-## Angular installation
-1. For angular and node: https://angular.io/guide/setup-local
-2. Clone the repository: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
+## Installation
+1. Install Node: https://nodejs.org/en/download
+2. Install Angular: https://angular.io/guide/setup-local
+3. Clone the repository: https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository
 
 
 ## Backend server
@@ -18,9 +19,10 @@
 3. `ng serve` to start the frondend server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 4. If you offer an offline service, get an access code for mapbox: https://www.mapbox.com/ and fill it in the environment.ts file. 
 
-## Select Business Models
+## Select business model properties and add categories
 
 1. Create a new platform company by altering the companyName in the `angular_frontend/src/app/services/company.service.ts`
-2. Navigate to `http://localhost:4200/taxonomy` to select the business model properties 
+2. Navigate to `http://localhost:4200/taxonomy` to select the relevant business model properties 
+3. Navigate to `http://localhost:4200/categories` to add categories and options 
 
 
