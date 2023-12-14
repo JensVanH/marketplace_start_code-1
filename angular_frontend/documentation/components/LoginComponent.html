@@ -491,6 +491,13 @@ export class LoginComponent implements OnInit {
                 &lt;/label&gt;
               &lt;/div&gt;
 
+              &lt;!-- Errors --&gt;
+              &lt;div&gt;
+                &lt;small *ngIf&#x3D;&quot;error&quot; class&#x3D;&quot;form-text&quot;&gt;
+                  &lt;i style&#x3D;&quot;color: red;&quot;&gt;{{error}}&lt;/i&gt;
+                &lt;/small&gt;
+              &lt;/div&gt;
+
               &lt;!-- Log In Button--&gt;
               &lt;button
                 type&#x3D;&quot;submit&quot;
@@ -499,15 +506,13 @@ export class LoginComponent implements OnInit {
                   LOG IN
               &lt;/button&gt;
 
-              &lt;!-- Errors --&gt;
-              &lt;small *ngIf&#x3D;&quot;error&quot; class&#x3D;&quot;form-text&quot;&gt;
-                &lt;i style&#x3D;&quot;color: red;&quot;&gt;{{error}}&lt;/i&gt;
-              &lt;/small&gt;
-
               &lt;!-- Create account link--&gt;
-              &lt;a routerLink&#x3D;&quot;/signup&quot;&gt;
-                Create new account
-              &lt;/a&gt;
+              &lt;div&gt;
+                &lt;a routerLink&#x3D;&quot;/signup&quot;&gt;
+                  Create new account
+                &lt;/a&gt;
+              &lt;/div&gt;
+              
 
             &lt;/form&gt;
           &lt;/div&gt;
@@ -553,8 +558,8 @@ export class LoginComponent implements OnInit {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div style="margin: 10px;">  <div class="container">    <div class="row">      <div class="offset-md-2 col-md-8 offset-lg-3 col-lg-6">        <!-- Title -->        <h1>Log In</h1>        <!-- Form -->        <div class="card">          <div class="card-body">            <form [formGroup]="form" (ngSubmit)="logIn()">              <!-- Email address / Username -->              <div class="form-group">                <label for="inputEmail">                  Email address / Username                </label>                <input                  type="text"                  class="form-control"                  id="inputEmail"                  placeholder="Enter Email / Username"                  formControlName="login">              </div>              <!-- Password -->              <div class="form-group">                <label for="inputPassword">                  Password                </label>                <input                  type="password"                  class="form-control"                  id="inputPassword"                  placeholder="Password"                  formControlName="password">              </div>              <!-- Keep signed in Checkbox -->              <div class="form-check">                <input type="checkbox" class="form-check-input" id="checkBox" formControlName="keepSignedIn">                <label class="form-check-label" for="checkBox">                  Keep me signed in                </label>              </div>              <!-- Log In Button-->              <button                type="submit"                class="btn btn-primary btn-block"                [disabled]="!(form.getRawValue().login && form.getRawValue().password)">                  LOG IN              </button>              <!-- Errors -->              <small *ngIf="error" class="form-text">                <i style="color: red;">{{error}}</i>              </small>              <!-- Create account link-->              <a routerLink="/signup">                Create new account              </a>            </form>          </div>        </div>      </div>    </div>  </div></div></div>'
-    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CategoriesComponent', 'selector': 'app-categories'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'CreateEditListingComponent', 'selector': 'app-form'},{'name': 'ListingDetailComponent', 'selector': 'app-detail'},{'name': 'ListingsComponent', 'selector': 'app-listings'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'TaxonomyComponent', 'selector': 'app-taxonomy'},{'name': 'TransactiondetailComponent', 'selector': 'app-transactiondetail'},{'name': 'TransactionsComponent', 'selector': 'app-transactions'}];
+        var COMPONENT_TEMPLATE = '<div><div style="margin: 10px;">  <div class="container">    <div class="row">      <div class="offset-md-2 col-md-8 offset-lg-3 col-lg-6">        <!-- Title -->        <h1>Log In</h1>        <!-- Form -->        <div class="card">          <div class="card-body">            <form [formGroup]="form" (ngSubmit)="logIn()">              <!-- Email address / Username -->              <div class="form-group">                <label for="inputEmail">                  Email address / Username                </label>                <input                  type="text"                  class="form-control"                  id="inputEmail"                  placeholder="Enter Email / Username"                  formControlName="login">              </div>              <!-- Password -->              <div class="form-group">                <label for="inputPassword">                  Password                </label>                <input                  type="password"                  class="form-control"                  id="inputPassword"                  placeholder="Password"                  formControlName="password">              </div>              <!-- Keep signed in Checkbox -->              <div class="form-check">                <input type="checkbox" class="form-check-input" id="checkBox" formControlName="keepSignedIn">                <label class="form-check-label" for="checkBox">                  Keep me signed in                </label>              </div>              <!-- Errors -->              <div>                <small *ngIf="error" class="form-text">                  <i style="color: red;">{{error}}</i>                </small>              </div>              <!-- Log In Button-->              <button                type="submit"                class="btn btn-primary btn-block"                [disabled]="!(form.getRawValue().login && form.getRawValue().password)">                  LOG IN              </button>              <!-- Create account link-->              <div>                <a routerLink="/signup">                  Create new account                </a>              </div>                          </form>          </div>        </div>      </div>    </div>  </div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'CategoriesComponent', 'selector': 'app-categories'},{'name': 'ChangePasswordComponent', 'selector': 'app-change-password'},{'name': 'CreateEditListingComponent', 'selector': 'app-form'},{'name': 'ListingDetailComponent', 'selector': 'app-detail'},{'name': 'ListingsComponent', 'selector': 'app-listings'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'MessagesComponent', 'selector': 'app-messages'},{'name': 'MylistingsComponent', 'selector': 'app-mylistings'},{'name': 'NotFoundComponent', 'selector': 'app-not-found'},{'name': 'ProfileComponent', 'selector': 'app-profile'},{'name': 'SignupComponent', 'selector': 'app-signup'},{'name': 'TaxonomyComponent', 'selector': 'app-taxonomy'},{'name': 'TransactiondetailComponent', 'selector': 'app-transactiondetail'},{'name': 'TransactionsComponent', 'selector': 'app-transactions'}];
     var DIRECTIVES = [];
     var ACTUAL_COMPONENT = {'name': 'LoginComponent'};
 </script>
