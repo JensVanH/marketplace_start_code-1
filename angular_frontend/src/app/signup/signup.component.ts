@@ -24,6 +24,7 @@ export class SignupComponent implements OnInit {
   constructor(private db: DbConnectionService,
     private route: Router,
     private image: ImageService,
+    private user: UserService,
     public ps: PropertiesService) {
       // initialize form fields
       this.form = new UntypedFormGroup({
@@ -38,6 +39,7 @@ export class SignupComponent implements OnInit {
         phoneNumber: new UntypedFormControl(),
         password: new UntypedFormControl(),
         repeatPassword: new UntypedFormControl()
+        
       });
    }
 
