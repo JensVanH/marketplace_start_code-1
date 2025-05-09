@@ -7,7 +7,10 @@ export const environment = {
   
   //baseUrlApi: "https://ugmarket.ugent.be/api2/",
   baseUrlApi: 'http://localhost:3001',
+<<<<<<< HEAD
 
+=======
+>>>>>>> aae4b5674b889e6b619ae4441084b291b6dfebff
   mapbox: {
     accessToken: '' 
   },
